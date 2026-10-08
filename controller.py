@@ -58,11 +58,11 @@ class TableController(Controller):
         self.table = table
 
     def create_ui(self):
-        pass
+        self.view.create_table_ui(self.table)
 
     def seat_touched(self, seat_number):
-        self.view.set_controller(
-        OrderController(self.view, self.restaurant, self.table, seat_number))
+        oc = OrderController(self.view, self.restaurant, self.table, seat_number)
+        self.view.set_controller(oc)
 
     def done(self):
         rc = RestaurantController(self.view, self.restaurant)
@@ -82,13 +82,14 @@ class OrderController(Controller):
 
     def add_item(self, menu_item):
         self.order.add_item(menu_item)
-        # Redraw the order view so the new item shows up
-        self.view.create_order_ui(self.order)
+        # self.view.create_order_ui(self.order)
 
     def update_order(self):
         self.order.place_new_orders()
-        self._return_to_table_view()
+        tc = TableController(self.view, self.restaurant, self.table)
+        self.view.set_controller(tc)
 
     def cancel(self):
         self.order.remove_unordered_items()
-        self._return_to_table_view()
+        tc = TableController(self.view, self.restaurant, self.table)
+        self.view.set_controller(tc)
