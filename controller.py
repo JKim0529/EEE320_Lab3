@@ -41,18 +41,14 @@ class RestaurantController(Controller):
     def create_ui(self):
         self.view.create_restaurant_ui()
 
-
     def table_touched(self, table_index):
         table = self.restaurant.tables[table_index]
-        # Table controller object
         tc = TableController(self.view, self.restaurant, table)
         self.view.set_controller(tc)
-
         self.view.create_table_ui(table)
 
-
-
 class TableController(Controller):
+
     def __init__(self, view, restaurant, table):
         super().__init__(view, restaurant)
         self.table = table
@@ -80,9 +76,9 @@ class OrderController(Controller):
     def create_ui(self):
         self.view.create_order_ui(self.order)
 
-    def add_item(self, menu_item):
-        self.order.add_item(menu_item)
-        # self.view.create_order_ui(self.order)
+    def add_item(self, item):
+        self.order.add_item(item)
+        self.view.create_order_ui(self.order)
 
     def update_order(self):
         self.order.place_new_orders()
